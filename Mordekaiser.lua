@@ -1,5 +1,5 @@
 if GetObjectName(myHero) ~= "Mordekaiser" then return end
-PrintChat("Misery Loves Company by Shiv loaded, v1.1")
+PrintChat("Misery Loves Company by Shiv loaded, v1.2, IOW version")
 MordekaiserMenu = Menu("Mordekaiser", "Mordekaiser")
 MordekaiserMenu:SubMenu("Combo", "Combo")
 MordekaiserMenu.Combo:Boolean("Q", "Use Q", true)
@@ -12,6 +12,7 @@ MordekaiserMenu.Combo:Slider("QSSHP", "if my health % is lower than", 75, 0, 100
 
 MordekaiserMenu:SubMenu("Farm", "Farm")
 MordekaiserMenu.Farm:Boolean("QLC", "Clear lane with Q", true)
+MordekaiserMenu.Farm:Boolean("WLC", "Clear lane with W", false)
 MordekaiserMenu.Farm:Boolean("ELC", "Clear lane with E", true)
 
 MordekaiserMenu:SubMenu("JungleClear", "Jungle Clear")
@@ -30,15 +31,12 @@ MordekaiserMenu.Autolevel:Boolean("Autolvl", "Auto level", false)
 
 
 OnLoop(function(myHero)
-local target = GetCurrentTarget()
-local spacepress = KeyIsDown(0x20) --F7 OrbWalker is ON
-	if spacepress then
-	
+if IOW:Mode() == "Combo" then
+	local target = GetCurrentTarget()
 	  
       if CanUseSpell(myHero, _Q) == READY and MordekaiserMenu.Combo.Q:Value() and GoS:ValidTarget(target, 250) then
       CastSpell(_Q)
       end
-	  
 	  
 	  if CanUseSpell(myHero, _W) == READY and GoS:ValidTarget(target, 1000) and MordekaiserMenu.Combo.W:Value() and GotBuff(myHero, "mordekaisercreepingdeath") == 0 then 
 	  CastTargetSpell(target, _W)
@@ -60,8 +58,6 @@ local spacepress = KeyIsDown(0x20) --F7 OrbWalker is ON
       CastTargetSpell(target, _R)
       end
 	  
-	  if GotBuff(myHero, "mordekaisermaceofspades1") > 0 then AttackUnit(target) end
-	  
 	  if GetItemSlot(myHero,3140) > 0 and MordekaiserMenu.Combo.QSS:Value() and GotBuff(myHero, "rocketgrab2") > 0 or GotBuff(myHero, "charm") > 0 or GotBuff(myHero, "fear") > 0 or GotBuff(myHero, "flee") > 0 or GotBuff(myHero, "snare") > 0 or GotBuff(myHero, "taunt") > 0 or GotBuff(myHero, "suppression") > 0 or GotBuff(myHero, "stun") > 0 or GotBuff(myHero, "zedultexecute") > 0 or GotBuff(myHero, "summonerexhaust") > 0 and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) < MordekaiserMenu.Combo.QSSHP:Value() then
         CastTargetSpell(myHero, GetItemSlot(myHero,3140))
         end
@@ -78,42 +74,40 @@ local spacepress = KeyIsDown(0x20) --F7 OrbWalker is ON
         CastTargetSpell(target, GetItemSlot(myHero,3146)) --gunblade
         end
   
-		if GetItemSlot(myHero,3401) > 0 and MordekaiserMenu.Combo.Items:Value() and GoS:EnemiesAround(GoS:myHeroPos(), 650) > 0 and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) < 30 then
+		if GetItemSlot(myHero,3401) > 0 and MordekaiserMenu.Combo.Items:Value() and GoS:EnemiesAround(GoS:myHeroPos(), 650) > 0 and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) < 20 then
         CastTargetSpell(myHero, GetItemSlot(myHero,3401)) --FotM
         end
 		
-		end
+end
 		
 
 for i,unit in pairs(GoS:GetAllMinions(MINION_ENEMY)) do  
-local laneclear = KeyIsDown(0x56) --F7 LaneClear is ON
-   if laneclear then
-       if GoS:ValidTarget(unit, 200) and MordekaiserMenu.Farm.QLC:Value() and CanUseSpell(myHero, _Q) == READY then
+if IOW:Mode() == "LaneClear" then
+       
+	   if GoS:ValidTarget(unit, 200) and MordekaiserMenu.Farm.QLC:Value() and CanUseSpell(myHero, _Q) == READY then
             CastSpell(_Q)            
-              end                   
+            end  
+		
+		if CanUseSpell(myHero, _W) == READY and GoS:ValidTarget(unit, 250) and MordekaiserMenu.Farm.WLC:Value() and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) < 60 then 
+			CastTargetSpell(myHero, _W)
+			end			  
                            
-				local minionposition = GetOrigin(unit)    
-                if GoS:ValidTarget(unit, GetCastRange(myHero, _E)) and MordekaiserMenu.Farm.ELC:Value() and CanUseSpell(myHero, _E) == READY then
-                        
-                                CastSkillShot(_E,minionposition.x,minionposition.y, minionposition.z)
-								
-								end
-								end
-								end
-for _,mob in pairs(GoS:GetAllMinions(MINION_JUNGLE)) do
-local laneclear = KeyIsDown(0x56) --F7 LaneClear is ON
-if laneclear then
+		local minionposition = GetOrigin(unit)    
+        if GoS:ValidTarget(unit, GetCastRange(myHero, _E)) and MordekaiserMenu.Farm.ELC:Value() and CanUseSpell(myHero, _E) == READY then
+            CastSkillShot(_E,minionposition.x,minionposition.y, minionposition.z)
+			end
+end
+end
 
+for _,mob in pairs(GoS:GetAllMinions(MINION_JUNGLE)) do
+if IOW:Mode() == "LaneClear" then
 
 if CanUseSpell(myHero, _Q) == READY and MordekaiserMenu.JungleClear.QJC:Value() and GoS:ValidTarget(mob, 200) then
       CastSpell(_Q)
       end
-if CanUseSpell(myHero, _W) == READY and GoS:ValidTarget(mob, 250) and MordekaiserMenu.JungleClear.WJC:Value() and GotBuff(myHero, "mordekaisercreepingdeath") == 0 then 
+if CanUseSpell(myHero, _W) == READY and GoS:ValidTarget(mob, 250) and MordekaiserMenu.JungleClear.WJC:Value() and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) < 90 then 
 	  CastTargetSpell(myHero, _W)
 				end  
-if CanUseSpell(myHero, _W) == READY and MordekaiserMenu.JungleClear.WJC:Value() and GotBuff(myHero, "mordekaisercreepingdeath") > 0 and GoS:ValidTarget(mob, 250) and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) < 90  then 
-	  CastSpell(_W)
-	  end
 	  
 	  local mobPos = GetOrigin(mob)
 	  if CanUseSpell(myHero, _E) == READY and MordekaiserMenu.JungleClear.EJC:Value() and GoS:ValidTarget(mob, GetCastRange(myHero, _E)) then
