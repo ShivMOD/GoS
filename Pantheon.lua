@@ -9,6 +9,9 @@ PantheonMenu.Combo:Boolean("Items", "Use Items", true)
 PantheonMenu.Combo:Boolean("QSS", "Use QSS", true)
 PantheonMenu.Combo:Slider("QSSHP", "if my health % is lower than", 75, 0, 100, 1)
 
+PantheonMenu:SubMenu("Harass", "Harass")
+PantheonMenu.Harass:Boolean("Q", "Use Q", true)
+
 PantheonMenu:SubMenu("Farm", "Farm")
 PantheonMenu.Farm:Boolean("QLC", "Clear lane with Q", true)
 PantheonMenu.Farm:Boolean("ELC", "Clear lane with E", true)
@@ -77,7 +80,7 @@ end
 if IOW:Mode() == "Harass" then
 local target = GetCurrentTarget()
 	  
-      if CanUseSpell(myHero, _Q) == READY and GotBuff(myHero, "pantheonesound") < 1 and PantheonMenu.Combo.Q:Value() and GoS:ValidTarget(target, 600) then
+      if CanUseSpell(myHero, _Q) == READY and GotBuff(myHero, "pantheonesound") < 1 and PantheonMenu.Harass.Q:Value() and GoS:ValidTarget(target, 600) then
       CastTargetSpell(target, _Q)
       end
 	  end

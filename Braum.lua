@@ -9,6 +9,9 @@ BraumMenu.Combo:Boolean("R", "Use R", true)
 BraumMenu.Combo:Boolean("Items", "Use Items", true)
 BraumMenu.Combo:Key("sbm", "Use W to ally or self-buff", string.byte("G"))
 
+BraumMenu:SubMenu("Harass", "Harass")
+BraumMenu.Harass:Boolean("Q", "Use Q", true)
+
 BraumMenu:SubMenu("Drawings", "Drawings")
 BraumMenu.Drawings:Boolean("Q", "Draw Q Range", false)
 BraumMenu.Drawings:Boolean("W", "Draw W Range", false)
@@ -16,6 +19,8 @@ BraumMenu.Drawings:Boolean("R", "Draw R Range", false)
 
 BraumMenu:SubMenu("Autolevel", "Auto Level")
 BraumMenu.Autolevel:Boolean("Autolvl", "Auto level", false)
+
+
 
 
 OnLoop(function(myHero)
@@ -74,7 +79,7 @@ if IOW:Mode() == "Harass" then
 local target = GetCurrentTarget()
 local rangeQ = GetCastRange(myHero, _Q)
 local Qprediction = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1650,300,rangeQ,80,true,true)
-if CanUseSpell(myHero, _Q) == READY and BraumMenu.Combo.Q:Value() and GoS:ValidTarget(target, 1000) and Qprediction.HitChance == 1 then
+if CanUseSpell(myHero, _Q) == READY and BraumMenu.Harass.Q:Value() and GoS:ValidTarget(target, 1000) and Qprediction.HitChance == 1 then
 CastSkillShot(_Q,Qprediction.PredPos.x, Qprediction.PredPos.y, Qprediction.PredPos.z)
 end
 end

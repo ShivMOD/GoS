@@ -10,6 +10,9 @@ MordekaiserMenu.Combo:Boolean("Items", "Use Items", true)
 MordekaiserMenu.Combo:Boolean("QSS", "Use QSS", true)
 MordekaiserMenu.Combo:Slider("QSSHP", "if my health % is lower than", 75, 0, 100, 1)
 
+MordekaiserMenu:SubMenu("Harass", "Harass")
+MordekaiserMenu.Harass:Boolean("E", "Use E", true)
+
 MordekaiserMenu:SubMenu("Farm", "Farm")
 MordekaiserMenu.Farm:Boolean("QLC", "Clear lane with Q", true)
 MordekaiserMenu.Farm:Boolean("WLC", "Clear lane with W", false)
@@ -85,7 +88,7 @@ local target = GetCurrentTarget()
 local rangeE = GetCastRange(myHero, _E)
 local Eprediction = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1300,250,rangeE,50,false,true)
       
-	  if CanUseSpell(myHero, _E) == READY and MordekaiserMenu.Combo.E:Value() and GoS:ValidTarget (target, 675) and Eprediction.HitChance == 1 then
+	  if CanUseSpell(myHero, _E) == READY and MordekaiserMenu.Harass.E:Value() and GoS:ValidTarget (target, 675) and Eprediction.HitChance == 1 then
    
        CastSkillShot(_E,Eprediction.PredPos.x, Eprediction.PredPos.y, Eprediction.PredPos.z)
 	end
