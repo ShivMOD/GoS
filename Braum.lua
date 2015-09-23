@@ -66,7 +66,7 @@ if IOW:Mode() == "Combo" then
 	elseif BraumMenu.Combo.R:Value() and CanUseSpell(myHero, _R) == READY and GoS:ValidTarget(target, 1250) and Rprediction.HitChance == 1 and GoS:AlliesAround(GoS:myHeroPos(), 1250)+1 < GoS:EnemiesAround(GoS:myHeroPos(), 850)  then
       CastSkillShot(_R,Rprediction.PredPos.x, Rprediction.PredPos.y, Rprediction.PredPos.z)
 	  
-	  elseif BraumMenu.Combo.R:Value() and CanUseSpell(myHero, _R) == READY and GoS:ValidTarget(target, 1250) and Rprediction.HitChance == 1 and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) < 30 then
+	  elseif BraumMenu.Combo.R:Value() and CanUseSpell(myHero, _R) == READY and GoS:ValidTarget(target, 1250) and Rprediction.HitChance == 1 and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) < 20 and GoS:EnemiesAround(GoS:myHeroPos(), 600) then
 	  CastSkillShot(_R,Rprediction.PredPos.x, Rprediction.PredPos.y, Rprediction.PredPos.z)
       end
 		
