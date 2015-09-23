@@ -1,5 +1,5 @@
 if GetObjectName(myHero) ~= "Mordekaiser" then return end
-PrintChat("Misery Loves Company by Shiv loaded, v1.2, IOW version")
+PrintChat("ShivAIO | Mordekaiser v1.3, IOW version")
 MordekaiserMenu = Menu("Mordekaiser", "Mordekaiser")
 MordekaiserMenu:SubMenu("Combo", "Combo")
 MordekaiserMenu.Combo:Boolean("Q", "Use Q", true)
@@ -79,7 +79,17 @@ if IOW:Mode() == "Combo" then
         end
 		
 end
-		
+
+if IOW:Mode() == "Harass" then
+local target = GetCurrentTarget()
+local rangeE = GetCastRange(myHero, _E)
+local Eprediction = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1300,250,rangeE,50,false,true)
+      
+	  if CanUseSpell(myHero, _E) == READY and MordekaiserMenu.Combo.E:Value() and GoS:ValidTarget (target, 675) and Eprediction.HitChance == 1 then
+   
+       CastSkillShot(_E,Eprediction.PredPos.x, Eprediction.PredPos.y, Eprediction.PredPos.z)
+	end
+	end
 
 for i,unit in pairs(GoS:GetAllMinions(MINION_ENEMY)) do  
 if IOW:Mode() == "LaneClear" then

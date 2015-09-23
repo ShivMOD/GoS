@@ -1,5 +1,5 @@
 if GetObjectName(myHero) ~= "Pantheon" then return end
-PrintChat("Pantheon by Shiv loaded, v1.0")
+PrintChat("ShivAIO | Pantheon v1.1")
 PantheonMenu = Menu("Pantheon", "Pantheon")
 PantheonMenu:SubMenu("Combo", "Combo")
 PantheonMenu.Combo:Boolean("Q", "Use Q", true)
@@ -73,6 +73,15 @@ if IOW:Mode() == "Combo" then
 	
 		
 end
+
+if IOW:Mode() == "Harass" then
+local target = GetCurrentTarget()
+	  
+      if CanUseSpell(myHero, _Q) == READY and GotBuff(myHero, "pantheonesound") < 1 and PantheonMenu.Combo.Q:Value() and GoS:ValidTarget(target, 600) then
+      CastTargetSpell(target, _Q)
+      end
+	  end
+
 		
 
 for i,unit in pairs(GoS:GetAllMinions(MINION_ENEMY)) do  

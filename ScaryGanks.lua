@@ -1,5 +1,5 @@
 require('Inspired')
-PrintChat("ScaryGanks by Shiv v1.0")
+PrintChat("ShivAIO | ScaryGanks v1.0")
 ScaryGanksMenu = Menu("ScaryGanks", "ScaryGanks")
 ScaryGanksMenu:SubMenu("Ganking", "Ganks")
 ScaryGanksMenu.Ganking:Boolean("Alert", "Show Alerts", true)
