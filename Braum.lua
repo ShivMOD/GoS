@@ -5,6 +5,8 @@ BraumMenu:SubMenu("Combo", "Combo")
 BraumMenu.Combo:Boolean("Q", "Use Q", true)
 BraumMenu.Combo:Boolean("E", "Use E", true)
 BraumMenu.Combo:Boolean("R", "Use R", true)
+BraumMenu.Combo:Boolean("gankR", "Use R when outnumbered", true)
+BraumMenu.Combo:Boolean("lowR", "Use R when Braum is low HP", true)
 BraumMenu.Combo:Boolean("Items", "Use Items", true)
 BraumMenu.Combo:Key("sbm", "Use W to ally or minion", string.byte("G"))
 
@@ -63,10 +65,10 @@ if IOW:Mode() == "Combo" then
 	  if BraumMenu.Combo.R:Value() and CanUseSpell(myHero, _R) == READY and GoS:ValidTarget(target, 1250) and Rprediction.HitChance == 1 and 100*GetCurrentHP(target)/GetMaxHP(target) < 50 then
       CastSkillShot(_R,Rprediction.PredPos.x, Rprediction.PredPos.y, Rprediction.PredPos.z)
 
-	elseif BraumMenu.Combo.R:Value() and CanUseSpell(myHero, _R) == READY and GoS:ValidTarget(target, 1250) and Rprediction.HitChance == 1 and GoS:AlliesAround(GoS:myHeroPos(), 1250)+1 < GoS:EnemiesAround(GoS:myHeroPos(), 850)  then
+	elseif BraumMenu.Combo.R:Value() and BraumMenu.Combo.gankR:Value() and CanUseSpell(myHero, _R) == READY and GoS:ValidTarget(target, 1250) and Rprediction.HitChance == 1 and GoS:AlliesAround(GoS:myHeroPos(), 1250)+1 < GoS:EnemiesAround(GoS:myHeroPos(), 850)  then
       CastSkillShot(_R,Rprediction.PredPos.x, Rprediction.PredPos.y, Rprediction.PredPos.z)
 	  
-	  elseif BraumMenu.Combo.R:Value() and CanUseSpell(myHero, _R) == READY and GoS:ValidTarget(target, 1250) and Rprediction.HitChance == 1 and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) < 20 and GoS:EnemiesAround(GoS:myHeroPos(), 600) then
+	  elseif BraumMenu.Combo.R:Value() and BraumMenu.Combo.lowR:Value() and CanUseSpell(myHero, _R) == READY and GoS:ValidTarget(target, 1250) and Rprediction.HitChance == 1 and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) < 20 and GoS:EnemiesAround(GoS:myHeroPos(), 600) then
 	  CastSkillShot(_R,Rprediction.PredPos.x, Rprediction.PredPos.y, Rprediction.PredPos.z)
       end
 		
