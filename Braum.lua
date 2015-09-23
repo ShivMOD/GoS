@@ -41,8 +41,6 @@ if IOW:Mode() == "Combo" then
 	  for _, ally in pairs(GoS:GetAllyHeroes()) do
 	  if CanUseSpell(myHero, _W) and BraumMenu.Combo.W:Value() and GoS:GetDistance(myHero, ally) <= 650 and IsObjectAlive(ally) and ally ~= myHero then
 			CastTargetSpell(ally, _W)
-			elseif CanUseSpell(myHero, _W) and BraumMenu.Combo.W:Value() and GoS:EnemiesAround(GoS:myHeroPos(), 500) > 0 and GoS:AlliesAround(GoS:myHeroPos(), 1000) == 0 then
-			CastTargetSpell(myHero, _W)
 								end
 		if GetItemSlot(myHero,3401) > 0 and BraumMenu.Combo.Items:Value() and IsObjectAlive(ally) and ally ~= myHero and 100*GetCurrentHP(ally)/GetMaxHP(ally) < 20 then
         CastTargetSpell(ally, GetItemSlot(myHero,3401)) --FotM
