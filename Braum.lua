@@ -1,13 +1,12 @@
 if GetObjectName(myHero) ~= "Braum" then return end
-PrintChat("ShivAIO | Braum v1.1")
+PrintChat("ShivAIO | Braum v1.2")
 BraumMenu = Menu("Braum", "Braum")
 BraumMenu:SubMenu("Combo", "Combo")
 BraumMenu.Combo:Boolean("Q", "Use Q", true)
-BraumMenu.Combo:Boolean("W", "Auto W (testing logic)", false)
 BraumMenu.Combo:Boolean("E", "Use E", true)
 BraumMenu.Combo:Boolean("R", "Use R", true)
 BraumMenu.Combo:Boolean("Items", "Use Items", true)
-BraumMenu.Combo:Key("sbm", "Use W to ally or self-buff", string.byte("G"))
+BraumMenu.Combo:Key("sbm", "Use W to ally or minion", string.byte("G"))
 
 BraumMenu:SubMenu("Harass", "Harass")
 BraumMenu.Harass:Boolean("Q", "Use Q", true)
@@ -34,10 +33,10 @@ if CanUseSpell(myHero, _W) and BraumMenu.Combo.sbm:Value() and GoS:GetDistance(m
 for i, minion in pairs(GoS:GetAllMinions(MINION_ALLY)) do
 if CanUseSpell(myHero, _W) and BraumMenu.Combo.sbm:Value() and GoS:GetDistance(myHero, minion) <= 650 and IsObjectAlive(minion) and GoS:AlliesAround(GoS:myHeroPos(), 650) == 0 then
 			CastTargetSpell(minion, _W)
-			elseif GoS:GetDistance(myHero, minion) > 650 and BraumMenu.Combo.sbm:Value() and GoS:AlliesAround(GoS:myHeroPos(), 650) == 0
-			then CastTargetSpell(myHero, _W)
 					end
 					end
+
+
 
 if IOW:Mode() == "Combo" then
 	local target = GetCurrentTarget()
@@ -49,27 +48,30 @@ if IOW:Mode() == "Combo" then
 	  if CanUseSpell(myHero, _Q) == READY and BraumMenu.Combo.Q:Value() and GoS:ValidTarget(target, 1000) and Qprediction.HitChance == 1 then
 	  CastSkillShot(_Q,Qprediction.PredPos.x, Qprediction.PredPos.y, Qprediction.PredPos.z)
       end
-	  
-	  for _, ally in pairs(GoS:GetAllyHeroes()) do
-	  if CanUseSpell(myHero, _W) and BraumMenu.Combo.W:Value() and GoS:GetDistance(myHero, ally) <= 650 and IsObjectAlive(ally) and ally ~= myHero then
-			CastTargetSpell(ally, _W)
-								end
-		if GetItemSlot(myHero,3401) > 0 and BraumMenu.Combo.Items:Value() and IsObjectAlive(ally) and ally ~= myHero and 100*GetCurrentHP(ally)/GetMaxHP(ally) < 20 then
+		
+		for _, ally in pairs(GoS:GetAllyHeroes()) do
+		if GetItemSlot(myHero,3401) > 0 and BraumMenu.Combo.Items:Value() and IsObjectAlive(ally) and ally ~= myHero and GoS:IsInDistance(ally, 700) and 100*GetCurrentHP(ally)/GetMaxHP(ally) < 20 then
         CastTargetSpell(ally, GetItemSlot(myHero,3401)) --FotM
 		end
 				end
 	  
 	  local enemyPos = GetOrigin(target)
-      if CanUseSpell(myHero, _E) == READY and BraumMenu.Combo.E:Value() and GoS:ValidTarget(target, 1250) then
+      if CanUseSpell(myHero, _E) == READY and BraumMenu.Combo.E:Value() and GoS:ValidTarget(target, 850) then
 	  CastSkillShot(_E,enemyPos.x, enemyPos.y, enemyPos.z)
       end
 	  
 	  if BraumMenu.Combo.R:Value() and CanUseSpell(myHero, _R) == READY and GoS:ValidTarget(target, 1250) and Rprediction.HitChance == 1 and 100*GetCurrentHP(target)/GetMaxHP(target) < 50 then
       CastSkillShot(_R,Rprediction.PredPos.x, Rprediction.PredPos.y, Rprediction.PredPos.z)
+
+	elseif BraumMenu.Combo.R:Value() and CanUseSpell(myHero, _R) == READY and GoS:ValidTarget(target, 1250) and Rprediction.HitChance == 1 and GoS:AlliesAround(GoS:myHeroPos(), 1250)+1 < GoS:EnemiesAround(GoS:myHeroPos(), 850)  then
+      CastSkillShot(_R,Rprediction.PredPos.x, Rprediction.PredPos.y, Rprediction.PredPos.z)
+	  
+	  elseif BraumMenu.Combo.R:Value() and CanUseSpell(myHero, _R) == READY and GoS:ValidTarget(target, 1250) and Rprediction.HitChance == 1 and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) < 30 then
+	  CastSkillShot(_R,Rprediction.PredPos.x, Rprediction.PredPos.y, Rprediction.PredPos.z)
       end
 		
   
-		if GetItemSlot(myHero,3401) > 0 and BraumMenu.Combo.Items:Value() and GoS:EnemiesAround(GoS:myHeroPos(), 650) > 0 and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) < 20 then
+		if GetItemSlot(myHero,3401) > 0 and BraumMenu.Combo.Items:Value() and GoS:EnemiesAround(GoS:myHeroPos(), 1250) > 0 and 100*GetCurrentHP(myHero)/GetMaxHP(myHero) < 20 then
         CastTargetSpell(myHero, GetItemSlot(myHero,3401)) --FotM
         end
 		
