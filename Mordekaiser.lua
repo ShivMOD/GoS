@@ -1,5 +1,5 @@
 if GetObjectName(myHero) ~= "Mordekaiser" then return end
-PrintChat("ShivAIO | Mordekaiser v1.3, IOW version")
+PrintChat("ShivAIO | Mordekaiser v1.3a, IOW version")
 MordekaiserMenu = Menu("Mordekaiser", "Mordekaiser")
 MordekaiserMenu:SubMenu("Combo", "Combo")
 MordekaiserMenu.Combo:Boolean("Q", "Use Q", true)
@@ -37,7 +37,7 @@ OnLoop(function(myHero)
 if IOW:Mode() == "Combo" then
 	local target = GetCurrentTarget()
 	  
-      if CanUseSpell(myHero, _Q) == READY and MordekaiserMenu.Combo.Q:Value() and GoS:ValidTarget(target, 250) then
+      if CanUseSpell(myHero, _Q) == READY and MordekaiserMenu.Combo.Q:Value() and GoS:ValidTarget(target, 200) then
       CastSpell(_Q)
       end
 	  
