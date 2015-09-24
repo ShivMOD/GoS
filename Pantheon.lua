@@ -48,7 +48,7 @@ if IOW:Mode() == "Combo" then
 	  CastTargetSpell(target, _W)
 	  end
 	  
-		local Eprediction = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),250,250,600,120,false,true)
+		local Eprediction = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1200,390,600,120,false,true)
       
 	  if CanUseSpell(myHero, _E) == READY and PantheonMenu.Combo.E:Value() and GoS:ValidTarget(target, 600) and Eprediction.HitChance == 1 then
       IOW:DisableOrbwalking()
