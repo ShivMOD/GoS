@@ -1,5 +1,5 @@
 if GetObjectName(myHero) ~= "Braum" then return end
-PrintChat("ShivAIO | Braum v1.2")
+PrintChat("ShivAIO | Braum v1.2a")
 BraumMenu = Menu("Braum", "Braum")
 BraumMenu:SubMenu("Combo", "Combo")
 BraumMenu.Combo:Boolean("Q", "Use Q", true)
@@ -42,10 +42,8 @@ if CanUseSpell(myHero, _W) and BraumMenu.Combo.sbm:Value() and GoS:GetDistance(m
 
 if IOW:Mode() == "Combo" then
 	local target = GetCurrentTarget()
-	local rangeQ = GetCastRange(myHero, _Q)
-	local rangeR = GetCastRange(myHero, _R)
-	local Qprediction = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1650,300,rangeQ,80,true,true)
-	local Rprediction = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),2500,1000,rangeR,120,false,true)
+	local Qprediction = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1100,300,1000,80,true,true)
+	local Rprediction = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),850,1000,1250,120,false,true)
       
 	  if CanUseSpell(myHero, _Q) == READY and BraumMenu.Combo.Q:Value() and GoS:ValidTarget(target, 1000) and Qprediction.HitChance == 1 then
 	  CastSkillShot(_Q,Qprediction.PredPos.x, Qprediction.PredPos.y, Qprediction.PredPos.z)
@@ -81,8 +79,7 @@ end
 
 if IOW:Mode() == "Harass" then
 local target = GetCurrentTarget()
-local rangeQ = GetCastRange(myHero, _Q)
-local Qprediction = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1650,300,rangeQ,80,true,true)
+local Qprediction = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1100,300,1000,80,true,true)
 if CanUseSpell(myHero, _Q) == READY and BraumMenu.Harass.Q:Value() and GoS:ValidTarget(target, 1000) and Qprediction.HitChance == 1 then
 CastSkillShot(_Q,Qprediction.PredPos.x, Qprediction.PredPos.y, Qprediction.PredPos.z)
 end
