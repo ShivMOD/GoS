@@ -1,11 +1,11 @@
 require('Inspired')
-PrintChat("ShivAIO | ScaryGanks v1.0")
+PrintChat("ShivAIO | ScaryGanks v1.0a")
 ScaryGanksMenu = Menu("ScaryGanks", "ScaryGanks")
 ScaryGanksMenu:SubMenu("Ganking", "Ganks")
 ScaryGanksMenu.Ganking:Boolean("Alert", "Show Alerts", true)
 
 OnLoop(function(myHero)
-if ScaryGanksMenu.Ganking.Alert:Value()	then
+if ScaryGanksMenu.Ganking.Alert:Value() and not IsDead(myHero) then
 if GoS:EnemiesAround(GoS:myHeroPos(), 4000) > 0 then
 			
 				local hero_origin = GoS:myHeroPos()
