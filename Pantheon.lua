@@ -1,5 +1,5 @@
 if GetObjectName(myHero) ~= "Pantheon" then return end
-PrintChat("ShivAIO | Pantheon v1.1")
+PrintChat("ShivAIO | Pantheon v1.2")
 PantheonMenu = Menu("Pantheon", "Pantheon")
 PantheonMenu:SubMenu("Combo", "Combo")
 PantheonMenu.Combo:Boolean("Q", "Use Q", true)
@@ -30,13 +30,15 @@ PantheonMenu.Drawings:Boolean("R", "Draw R Range", false)
 PantheonMenu:SubMenu("Autolevel", "Auto Level")
 PantheonMenu.Autolevel:Boolean("Autolvl", "Auto level", false)
 
+OnProcessSpell(function(unit, spell)
+if unit and unit == myHero and spell and spell.name=="PantheonE" then
+IOW:DisableOrbwalking()
+GoS:DelayAction(function () IOW:EnableOrbwalking() end, 1300)
+end
+end)
+
 
 OnLoop(function(myHero)
-if GotBuff(myHero, "pantheonesound") > 0 then
-  IOW:DisableOrbwalking()
-  elseif GotBuff(myHero, "pantheonesound") < 1 then 
-  IOW:EnableOrbwalking()
-  end
 if IOW:Mode() == "Combo" then
 	local target = GetCurrentTarget()
 	  
@@ -48,10 +50,11 @@ if IOW:Mode() == "Combo" then
 	  CastTargetSpell(target, _W)
 	  end
 	  
-		local Eprediction = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1200,390,600,120,false,true)
+		local Eprediction = GetPredictionForPlayer(GoS:myHeroPos(),target,GetMoveSpeed(target),1200,390,600,100,false,true)
       
 	  if CanUseSpell(myHero, _E) == READY and PantheonMenu.Combo.E:Value() and GoS:ValidTarget(target, 600) and Eprediction.HitChance == 1 then
-      IOW:DisableOrbwalking()
+     IOW:DisableOrbwalking()
+	  
 		CastSkillShot(_E,Eprediction.PredPos.x, Eprediction.PredPos.y, Eprediction.PredPos.z)
 	   
 	end
